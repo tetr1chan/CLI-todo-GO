@@ -57,7 +57,34 @@ func main() {
 			fmt.Print(task.Deadline)
 			fmt.Println("---------------------------------")
 		}
+	}
+	fmt.Println("Do you want to change Task?")
+	var checker1 string
+	fmt.Scanln(&checker1)
+	if checker1 == "YES" || checker1 == "yes" || checker1 == "Yes" {
+		fmt.Println("Enter the number of task you want to change")
+		var NumofTask int
+		fmt.Scanln(&NumofTask)
+		fmt.Println("If you want change Task enter 1 if you want change deadline enter 2 if you want delete task enter 3")
+		var changeable int
+		fmt.Scanln(&changeable)
+		if changeable == 1 {
+			fmt.Println("Enter New description of Task")
+			var Newdesc string
+			fmt.Scanln(&Newdesc)
+			AllTasks[NumofTask].WhTask = Newdesc
+		} else if changeable == 2 {
+			fmt.Println("Enter new deadline")
+			var Newdead string
+			fmt.Scanln(&Newdead)
+			AllTasks[NumofTask].Deadline = Newdead
+		} else if changeable == 3 {
+			AllTasks = append(AllTasks[:NumofTask], AllTasks[NumofTask+1:]...)
+		} else {
+			return
+		}
 	} else {
 		return
+
 	}
 }
