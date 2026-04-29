@@ -58,33 +58,48 @@ func main() {
 			fmt.Println("---------------------------------")
 		}
 	}
-	fmt.Println("Do you want to change Task?")
-	var checker1 string
-	fmt.Scanln(&checker1)
-	if checker1 == "YES" || checker1 == "yes" || checker1 == "Yes" {
-		fmt.Println("Enter the number of task you want to change")
-		var NumofTask int
-		fmt.Scanln(&NumofTask)
-		fmt.Println("If you want change Task enter 1 if you want change deadline enter 2 if you want delete task enter 3")
-		var changeable int
-		fmt.Scanln(&changeable)
-		if changeable == 1 {
-			fmt.Println("Enter New description of Task")
-			var Newdesc string
-			fmt.Scanln(&Newdesc)
-			AllTasks[NumofTask].WhTask = Newdesc
-		} else if changeable == 2 {
-			fmt.Println("Enter new deadline")
-			var Newdead string
-			fmt.Scanln(&Newdead)
-			AllTasks[NumofTask].Deadline = Newdead
-		} else if changeable == 3 {
-			AllTasks = append(AllTasks[:NumofTask], AllTasks[NumofTask+1:]...)
+	flag = true
+	for flag {
+		fmt.Println("Do you want to change Task?")
+		var checker1 string
+		fmt.Scanln(&checker1)
+		if checker1 == "YES" || checker1 == "yes" || checker1 == "Yes" {
+			fmt.Println("Enter the number of task you want to change")
+			var NumofTask int
+			fmt.Scanln(&NumofTask)
+			fmt.Println("If you want change Task enter 1 if you want change deadline enter 2 if you want delete task enter 3")
+			var changeable int
+			fmt.Scanln(&changeable)
+			if changeable == 1 {
+				fmt.Println("Enter New description of Task")
+				var Newdesc string
+				fmt.Scanln(&Newdesc)
+				AllTasks[NumofTask].WhTask = Newdesc
+			} else if changeable == 2 {
+				fmt.Println("Enter new deadline")
+				var Newdead string
+				fmt.Scanln(&Newdead)
+				AllTasks[NumofTask].Deadline = Newdead
+			} else if changeable == 3 {
+				AllTasks = append(AllTasks[:NumofTask-1], AllTasks[NumofTask:]...)
+			} else {
+				return
+			}
 		} else {
-			return
+			flag = false
 		}
-	} else {
-		return
-
+	}
+	fmt.Println("Do you want see new list of Task?")
+	var checker2 string
+	fmt.Scanln(&checker2)
+	if checker2 == "YES" || checker2 == "yes" || checker2 == "Yes" {
+		i := 0
+		for _, task := range AllTasks {
+			i++
+			fmt.Print("Task №", i, "\n")
+			fmt.Print(task.WhTask)
+			fmt.Print(task.Deadline)
+			fmt.Println("---------------------------------")
+		}
 	}
 }
