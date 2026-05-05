@@ -2,13 +2,14 @@ package main
 
 import (
 	"bufio"
+	"encoding/json"
 	"fmt"
 	"os"
 )
 
 type Task struct {
-	WhTask   string
-	Deadline string
+	WhTask   string `json:"whtask"`
+	Deadline string `json:"deadline"`
 }
 
 func (a *Task) NewTask(task string, deadline string) {
@@ -16,11 +17,18 @@ func (a *Task) NewTask(task string, deadline string) {
 	a.Deadline = deadline
 }
 func main() {
-	flag := true
 	var AllTasks []Task
+	_, err := os.Stat("tasks.json")
+	if os.IsNotExist(err) {
+		AllTasks = []Task{}
+	} else {
+		filedata, _ := os.ReadFile("tasks.json")
+		json.Unmarshal(filedata, &AllTasks)
+	}
+	flag := true
 	for flag {
 		var s string
-		fmt.Println("Do you have new task answer yes/no:")
+		fmt.Println("Do you have new task answer (yes/no):")
 		fmt.Scanln(&s)
 		if s == "Yes" || s == "yes" {
 			fmt.Println("Enter your new task:")
@@ -89,7 +97,7 @@ func main() {
 			flag = false
 		}
 	}
-	fmt.Println("Do you want see new list of Task?")
+	fmt.Println("Do you want see list of Task?")
 	var checker2 string
 	fmt.Scanln(&checker2)
 	if checker2 == "YES" || checker2 == "yes" || checker2 == "Yes" {
@@ -101,5 +109,13 @@ func main() {
 			fmt.Print(task.Deadline)
 			fmt.Println("---------------------------------")
 		}
+	}
+	Filedata, err := json.MarshalIndent(AllTasks, "", " ")
+	if err != nil {
+		panic(err)
+	}
+	err = os.WriteFile("tasks.json", Filedata, 0644)
+	if err != nil {
+		panic(err)
 	}
 }
